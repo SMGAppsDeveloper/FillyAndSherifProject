@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "921769926117",
+    "firebase_url": "https://smgandfillyproject.firebaseio.com",
+    "project_id": "smgandfillyproject",
+    "storage_bucket": "smgandfillyproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921769926117:android:f5b2384a56d2d8cb",
+        "android_client_info": {
+          "package_name": "developer.app.smg.businessaddressregistration"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "921769926117-hhd7h6bjtig258c7233kvoslina5i10t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "developer.app.smg.businessaddressregistration",
+            "certificate_hash": "0b8fab3c9ccf9bf57f6c78a420ab51a9d82dbc06"
+          }
+        },
+        {
+          "client_id": "921769926117-bssn9kafs8m977n1460no3idjv2pan2d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0BtGNAObO0Y-gQjPLm_S3Kinn36peec0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "921769926117-bssn9kafs8m977n1460no3idjv2pan2d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
