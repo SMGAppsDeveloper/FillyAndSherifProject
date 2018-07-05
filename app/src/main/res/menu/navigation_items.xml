@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-
+    <item
+        android:id="@+id/profile_nav"
+        android:icon="@drawable/ic_account_circle_black_24dp"
+        android:title="@string/nav_profile" />
     <item
         android:id="@+id/registration_nav"
         android:icon="@drawable/ic_add_location_black_24dp"
@@ -10,9 +13,6 @@
         android:id="@+id/business_list_nav"
         android:icon="@drawable/ic_business_black_24dp"
         android:title="@string/nav_location_of_business" />
-    <item
-        android:id="@+id/profile_nav"
-        android:icon="@drawable/ic_account_circle_black_24dp"
-        android:title="@string/nav_profile" />
+
 
 </menu>
