@@ -69,7 +69,7 @@
                     android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="0123456789"
+                    android:inputType="phone"
                     android:hint="Enter Business Phone" />
             </android.support.design.widget.TextInputLayout>
 
@@ -96,6 +96,7 @@
                 <EditText
                     android:id="@+id/businessBuildingFloorNumber"
                     android:singleLine="true"
+                    android:inputType="number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Building Floor Number" />

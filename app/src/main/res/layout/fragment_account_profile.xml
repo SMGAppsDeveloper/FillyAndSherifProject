@@ -81,6 +81,7 @@
                 <EditText
                     android:id="@+id/txtEmailAddress"
                     android:singleLine="true"
+                    android:inputType="text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email Address" />
@@ -97,6 +98,7 @@
                     android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="phone"
                     android:hint="Phone Number" />
             </android.support.design.widget.TextInputLayout>
 
