@@ -74,6 +74,15 @@ public class LoginActivity extends Activity {
                 }
             }
         });
+
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, SignUpUsingEmailAndPW.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
     }
     private boolean ValidateInputs(String email, String passWord){
 

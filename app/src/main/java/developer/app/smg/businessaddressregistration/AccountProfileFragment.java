@@ -2,25 +2,11 @@ package developer.app.smg.businessaddressregistration;
 
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 
 /**
@@ -28,11 +14,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
  */
 public class AccountProfileFragment extends Fragment {
 
-    private EditText txtFname, txtMname, txtLname, txtEmail, txtPhone, txtLat, txtLong, txtpassWord;
+/*    private EditText txtFname, txtMname, txtLname, txtEmail, txtPhone, txtLat, txtLong, txtpassWord;
     private Button btnSaveProfile, btnSignup;
     private String userID;
     private FirebaseFirestore db;
-    private FirebaseAuth auth;
+    private FirebaseAuth auth;*/
 
     public AccountProfileFragment() {
         // Required empty public constructor
@@ -50,7 +36,7 @@ public class AccountProfileFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        db = FirebaseFirestore.getInstance();
+       /* db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
 
@@ -63,10 +49,10 @@ public class AccountProfileFragment extends Fragment {
         txtLong = view.findViewById(R.id.txtLongtude);
         txtpassWord = view.findViewById(R.id.txtUserPassword);
 
-        btnSaveProfile = view.findViewById(R.id.btnSaveProfile);
+        btnSaveProfile = view.findViewById(R.id.btnSaveProfile);*/
 
 
-        btnSaveProfile.setOnClickListener(new View.OnClickListener() {
+  /*      btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String fname = txtFname.getText().toString();
@@ -116,17 +102,12 @@ public class AccountProfileFragment extends Fragment {
 
             }
 
-        });
+        });*/
 
 
     }
-    private void setNextFragment(Fragment fragment) {
-        /*FragmentTransaction fragmentTransaction =  getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_container_frame, fragment);
-        fragmentTransaction.commit();*/
-    }
 
-    private String registerUser() {
+    /*private String registerUser() {
         String email = txtEmail.getText().toString();
         String passWord = txtpassWord.getText().toString();
         auth.createUserWithEmailAndPassword(email, passWord).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -141,9 +122,9 @@ public class AccountProfileFragment extends Fragment {
             }
         });
         return auth.getUid();
-    }
+    }*/
 
-    private boolean ValidateInputs(String fname, String mname, String lname, String email, String phone, String Lat, String Long, String Pword){
+    /*private boolean ValidateInputs(String fname, String mname, String lname, String email, String phone, String Lat, String Long, String Pword){
 
         if (fname.isEmpty()){
             txtFname.setError("First Name Required");
@@ -192,5 +173,5 @@ public class AccountProfileFragment extends Fragment {
             return  true;
         }
         return false;
-    }
+    }*/
 }
