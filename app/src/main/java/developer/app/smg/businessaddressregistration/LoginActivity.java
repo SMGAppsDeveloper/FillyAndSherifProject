@@ -29,7 +29,7 @@ public class LoginActivity extends Activity {
         //getActionBar().setTitle("Login");
         mAuth = FirebaseAuth.getInstance();
 
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar = (ProgressBar)findViewById(R.id.loginProgressbar);
         userEmail = (EditText)findViewById(R.id.txtLoginEmailAdd);
         userPassword = (EditText)findViewById(R.id.txtLoginPassword);
         btnLogin = (Button) findViewById(R.id.btnLogin);
@@ -61,15 +61,14 @@ public class LoginActivity extends Activity {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
 
-                               /* Toast.makeText(getApplicationContext(), "Successfully Logged In!  " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG);
+                                Toast.makeText(getApplicationContext(), "Successfully Logged In!  " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG);
                                 userEmail.getText().clear();
-                                userPassword.getText().clear();*/
+                                userPassword.getText().clear();
                             }
                             else    {
                                 Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG);
 
                             }
-
                         }
                     });
                 }
