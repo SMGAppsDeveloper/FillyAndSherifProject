@@ -11,6 +11,7 @@
     tools:context=".SignUpUsingEmailAndPW">
 
     <TextView
+        android:layout_marginBottom="10dp"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="30dp"
         android:textAllCaps="false"
@@ -20,23 +21,19 @@
         android:text="Create Account" />
 
     <ScrollView
-
         android:layout_width="match_parent"
-        android:layout_marginBottom="20dp"
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:orientation="vertical"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:paddingTop="20dp"
+            android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/fristname"
-
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
