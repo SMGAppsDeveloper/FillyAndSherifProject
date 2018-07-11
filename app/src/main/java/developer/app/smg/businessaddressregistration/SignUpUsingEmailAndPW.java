@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -61,49 +62,47 @@ public class SignUpUsingEmailAndPW extends Activity {
                 String lat = txtLat.getText().toString();
                 String longt = txtLong.getText().toString();
                 String pWord = txtpassWord.getText().toString();
-                if (!ValidateInputs(fname,mname,lname, email,phone,lat,longt,pWord ))
+                if (!ValidateInputs(fname,mname,lname, email,phone,lat,longt,pWord )){
 
-                {
-                progressBar.setVisibility(View.VISIBLE);
-                registerUser();
+                    //userID = auth.getCurrentUser().getUid();
+                    UsersProfileClass usersProfileClass = new UsersProfileClass(
+                            fname, mname, lname, email, phone, lat, longt
+                    );
 
-                userID = auth.getCurrentUser().getUid();
-                UsersProfileClass usersProfileClass = new UsersProfileClass(
-                        fname, mname, lname, email, phone, lat, longt
-                );
+                    CollectionReference profileInfo = db.collection("UsersProfileInfo");
 
-                CollectionReference profileInfo = db.collection("UsersProfileInfo");
+                    //profileInfo.document().collection(userID);
 
-                profileInfo.document().collection(userID);
+                    profileInfo.add(usersProfileClass).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            registerUser();
+                            progressBar.setVisibility(View.VISIBLE);
+                            txtFname.getText().clear();
+                            txtMname.getText().clear();
+                            txtLname.getText().clear();
+                            txtEmail.getText().clear();
+                            txtPhone.getText().clear();
+                            txtLat.getText().clear();
+                            txtLong.getText().clear();
 
-                profileInfo.add(usersProfileClass).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(getApplicationContext(), "Successfully Saved Profile Information!", Toast.LENGTH_LONG).show();
-                        txtFname.getText().clear();
-                        txtMname.getText().clear();
-                        txtLname.getText().clear();
-                        txtEmail.getText().clear();
-                        txtPhone.getText().clear();
-                        txtLat.getText().clear();
-                        txtLong.getText().clear();
 
-                        progressBar.setVisibility(View.GONE);
-
-                        Intent intent = new Intent(SignUpUsingEmailAndPW.this, LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
+                            Intent intent = new Intent(SignUpUsingEmailAndPW.this, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            //intent.putExtra(auth.getCurrentUser().toString());
+                            startActivity(intent);
+                            Toast.makeText(getApplicationContext(), "Successfully Saved Profile Information!", Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
 
             }
-
-        }
 
         });
     }
@@ -113,7 +112,22 @@ public class SignUpUsingEmailAndPW extends Activity {
         auth.createUserWithEmailAndPassword(email, passWord).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                Toast.makeText(getApplicationContext(), "User Created successfully!",Toast.LENGTH_LONG).show();
+
+                if (task.isSuccessful()){
+                    progressBar.setVisibility(View.GONE);
+                    finish();
+                    startActivity(new Intent(SignUpUsingEmailAndPW.this, MainActivity.class));
+                    Toast.makeText(getApplicationContext(), "Profile Created successfully!",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    if (task.getException() instanceof FirebaseAuthUserCollisionException){
+                        Toast.makeText(getApplicationContext(), "There is a user with this email " + txtEmail.getText(), Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

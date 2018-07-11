@@ -78,7 +78,7 @@ public class RegistrationFragment extends Fragment{
 
                     CollectionReference businessInfo = db.collection("AddissAbabaBusinessList");
 
-                    AddisAbabaBusinessLocations addisAbabaBusinessLocations = new AddisAbabaBusinessLocations(
+                    AddisAbabaBusinessLocationsClass addisAbabaBusinessLocationsClass = new AddisAbabaBusinessLocationsClass(
                             OwnerName,
                             BusinessName,
                             BusinessPhone,
@@ -88,7 +88,7 @@ public class RegistrationFragment extends Fragment{
                             Longitude
                     );
 
-                    businessInfo.add(addisAbabaBusinessLocations).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    businessInfo.add(addisAbabaBusinessLocationsClass).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             Toast.makeText(getContext(), "Successfully Added!",Toast.LENGTH_LONG).show();

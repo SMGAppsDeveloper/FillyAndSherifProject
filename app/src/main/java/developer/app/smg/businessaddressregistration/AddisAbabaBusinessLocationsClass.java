@@ -1,13 +1,13 @@
 package developer.app.smg.businessaddressregistration;
 
-public class AddisAbabaBusinessLocations {
+public class AddisAbabaBusinessLocationsClass {
     private String OwnerName, BusinessName, BusinessPhone, BuildName, FloorNum, Lat, Long;
 
-    public AddisAbabaBusinessLocations(){
+    public AddisAbabaBusinessLocationsClass(){
 
     }
 
-    public AddisAbabaBusinessLocations(String ownerName, String businessName, String businessPhone, String buildName, String floorNum, String lat, String aLong) {
+    public AddisAbabaBusinessLocationsClass(String ownerName, String businessName, String businessPhone, String buildName, String floorNum, String lat, String aLong) {
         OwnerName = ownerName;
         BusinessName = businessName;
         BusinessPhone = businessPhone;
