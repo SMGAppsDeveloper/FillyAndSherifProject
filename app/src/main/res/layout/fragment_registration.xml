@@ -113,6 +113,7 @@
                 <EditText
                     android:id="@+id/addresslatitude"
                     android:singleLine="true"
+                    android:enabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Latitude" />
@@ -127,6 +128,7 @@
                 <EditText
                     android:id="@+id/addresslongitude"
                     android:singleLine="true"
+                    android:enabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Longitude" />

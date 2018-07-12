@@ -1,6 +1,7 @@
 package developer.app.smg.businessaddressregistration;
 
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -22,7 +25,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RegistrationFragment extends Fragment{
+public class RegistrationFragment extends Fragment {
+
 
     private EditText txtContactPerson;
     private EditText txtBusinessName;
@@ -32,8 +36,11 @@ public class RegistrationFragment extends Fragment{
     private EditText txtLatitude;
     private EditText txtLongitude;
     private Button btnSaveData;
-
     private FirebaseFirestore db;
+    double latitude, longitude;
+    private FusedLocationProviderClient mFusedLocationClient;
+
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
     public RegistrationFragment() {
         // Required empty public constructor
@@ -44,7 +51,9 @@ public class RegistrationFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_registration, container, false);
+        //getLastLocation();
         return view;
     }
 
@@ -52,8 +61,10 @@ public class RegistrationFragment extends Fragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        db = FirebaseFirestore.getInstance();
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+
+        db = FirebaseFirestore.getInstance();
         txtContactPerson = view.findViewById(R.id.businessOwnerFullName);
         txtBusinessName = view.findViewById(R.id.businessNameValue);
         txtBusinessPhone = view.findViewById(R.id.businessPhoneNumber);
@@ -63,18 +74,31 @@ public class RegistrationFragment extends Fragment{
         txtLongitude = view.findViewById(R.id.addresslongitude);
         btnSaveData = view.findViewById(R.id.saveBusinessData);
 
+        GPSTracker g = new GPSTracker(getContext());
+        Location l = g.getLocation();
+        if(l != null){
+             latitude = l.getLatitude();
+             longitude = l.getLongitude();
+            Toast.makeText(getContext(), "Current location info " + " \n" + "Lat: " + latitude + " \n" + "Long: " + longitude, Toast.LENGTH_LONG).show();
+        }
+
+        txtLatitude.setText(""+ latitude); txtLongitude.setText(""+longitude);
+
+
         btnSaveData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 String OwnerName = txtContactPerson.getText().toString();
                 String BusinessName = txtBusinessName.getText().toString();
                 String BusinessPhone = txtBusinessPhone.getText().toString();
                 String BuildingName = txtBuildingName.getText().toString();
                 String FloorNumber = txtFloorNumber.getText().toString();
-                String Latitude = txtLatitude.getText().toString();
-                String Longitude = txtLongitude.getText().toString();
+                String Latitude = "" + latitude;
+                String Longitude = "" + longitude;
 
-                if(!ValidateInputs(OwnerName, BusinessName, BusinessPhone, BuildingName, FloorNumber, Latitude, Longitude)) {
+                if (!ValidateInputs(OwnerName, BusinessName, BusinessPhone, BuildingName, FloorNumber, Latitude, Longitude)) {
 
                     CollectionReference businessInfo = db.collection("AddissAbabaBusinessList");
 
@@ -91,7 +115,8 @@ public class RegistrationFragment extends Fragment{
                     businessInfo.add(addisAbabaBusinessLocationsClass).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
-                            Toast.makeText(getContext(), "Successfully Added!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Successfully Added!", Toast.LENGTH_LONG).show();
+
                             txtContactPerson.getText().clear();
                             txtBuildingName.getText().clear();
                             txtBusinessName.getText().clear();
@@ -103,7 +128,7 @@ public class RegistrationFragment extends Fragment{
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getContext(), e.getMessage(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -114,50 +139,49 @@ public class RegistrationFragment extends Fragment{
 
     }
 
-    private boolean ValidateInputs(String Person, String BusName, String Phone, String BuldName, String Floor, String Lat, String Long){
+    private boolean ValidateInputs(String Person, String BusName, String Phone, String BuldName, String Floor, String Lat, String Long) {
 
-        if (Person.isEmpty()){
+        if (Person.isEmpty()) {
             txtContactPerson.setError("Business Owner Required");
             txtContactPerson.requestFocus();
-            return  true;
+            return true;
         }
 
-        if (BusName.isEmpty()){
+        if (BusName.isEmpty()) {
             txtBusinessName.setError("Business Name Required");
             txtBusinessName.requestFocus();
-            return  true;
+            return true;
         }
 
-        if (Phone.isEmpty()){
+        if (Phone.isEmpty()) {
             txtBusinessPhone.setError("Business Phone Required");
             txtBusinessPhone.requestFocus();
-            return  true;
+            return true;
         }
 
-        if (BuldName.isEmpty()){
+        if (BuldName.isEmpty()) {
             txtBuildingName.setError("Building Name Required");
             txtBuildingName.requestFocus();
-            return  true;
+            return true;
         }
 
-        if (Floor.isEmpty()){
+        if (Floor.isEmpty()) {
             txtFloorNumber.setError("Floor Number Required");
             txtFloorNumber.requestFocus();
-            return  true;
+            return true;
         }
 
-        if (Lat.isEmpty()){
+        if (Lat.isEmpty()) {
             txtLatitude.setError("Latitude Required");
             txtLatitude.requestFocus();
-            return  true;
+            return true;
         }
 
-        if (Long.isEmpty()){
+        if (Long.isEmpty()) {
             txtLongitude.setError("Longitude Required");
             txtLongitude.requestFocus();
-            return  true;
+            return true;
         }
         return false;
     }
-
 }
