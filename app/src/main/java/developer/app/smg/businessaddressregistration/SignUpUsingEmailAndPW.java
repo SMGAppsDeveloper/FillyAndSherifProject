@@ -1,8 +1,12 @@
 package developer.app.smg.businessaddressregistration;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +33,7 @@ public class SignUpUsingEmailAndPW extends Activity {
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     ProgressBar progressBar;
-
+    double latitude, longitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,17 +43,29 @@ public class SignUpUsingEmailAndPW extends Activity {
         auth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.signUpProgressbar);
 
-        txtFname = (EditText)findViewById(R.id.txtFirstName);
-        txtMname = (EditText)findViewById(R.id.txtMiddleName);
-        txtLname = (EditText)findViewById(R.id.txtLastName);
-        txtEmail = (EditText)findViewById(R.id.txtEmailAddress);
-        txtPhone = (EditText)findViewById(R.id.txtPhoneNumber);
-        txtLat = (EditText)findViewById(R.id.txtLatitude);
-        txtLong = (EditText)findViewById(R.id.txtLongtude);
-        txtpassWord = (EditText)findViewById(R.id.txtUserPassword);
+        txtFname = findViewById(R.id.txtFirstName);
+        txtMname = findViewById(R.id.txtMiddleName);
+        txtLname = findViewById(R.id.txtLastName);
+        txtEmail = findViewById(R.id.txtEmailAddress);
+        txtPhone = findViewById(R.id.txtPhoneNumber);
+        txtLat = findViewById(R.id.txtLatitude);
+        txtLong = findViewById(R.id.txtLongtude);
+        txtpassWord = findViewById(R.id.txtUserPassword);
 
-        btnSaveProfile = (Button) findViewById(R.id.btnSaveProfile);
+        btnSaveProfile = findViewById(R.id.btnSaveProfile);
 
+        //showSettingAlert();
+
+        GPSTracker g = new GPSTracker(getApplication());
+        Location l = g.getLocation();
+        if(l != null){
+            latitude = l.getLatitude();
+            longitude = l.getLongitude();
+            Toast.makeText(getApplication(), "Current location info " + " \n" + "Lat: " + latitude + " \n" + "Long: " + longitude, Toast.LENGTH_LONG).show();
+        }
+
+        txtLat.setText(""+ latitude);
+        txtLong.setText(""+ longitude);
 
         btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +121,26 @@ public class SignUpUsingEmailAndPW extends Activity {
             }
 
         });
+    }
+    public void showSettingAlert()
+    {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getApplicationContext());
+        alertDialog.setTitle("GPS setting!");
+        alertDialog.setMessage("GPS is not enabled, Do you want to go to settings menu? ");
+        alertDialog.setPositiveButton("Setting", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                getApplicationContext().startActivity(intent);
+            }
+        });
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        alertDialog.show();
     }
     private String registerUser() {
         String email = txtEmail.getText().toString();

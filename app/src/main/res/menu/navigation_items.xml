@@ -5,6 +5,7 @@
     <item
         android:id="@+id/business_list_nav"
         android:icon="@drawable/ic_business_black_24dp"
+        android:checked="true"
         android:title="@string/nav_location_of_business" />
     <item
         android:id="@+id/profile_nav"
@@ -14,11 +15,9 @@
         android:id="@+id/registration_nav"
         android:icon="@drawable/ic_add_location_black_24dp"
         android:title="@string/nav_business_registration" />
-
-
-<!--    <item
-        android:id="@+id/login_nav"
-        android:icon="@drawable/ic_account_box_black_24dp"
-        android:title="@string/login" />-->
+    <item
+        android:id="@+id/map_nav"
+        android:icon="@drawable/ic_my_location_black_24dp"
+        android:title="@string/map" />
 
 </menu>

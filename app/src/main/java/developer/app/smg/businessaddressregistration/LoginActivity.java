@@ -1,8 +1,11 @@
 package developer.app.smg.businessaddressregistration;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +32,6 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //getActionBar().setTitle("Login");
         mAuth = FirebaseAuth.getInstance();
         lblForgotPassword = findViewById(R.id.lblForgotCredential);
         progressBar = findViewById(R.id.loginProgressbar);
@@ -38,10 +40,11 @@ public class LoginActivity extends Activity {
         btnLogin = findViewById(R.id.btnLogin);
         btnSignup = findViewById(R.id.btnUserSignup);
 
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showSettingAlert();
                 String userEMailAddressValue = userEmail.getText().toString();
                 String userPasswordValue = userPassword.getText().toString();
 
@@ -77,11 +80,11 @@ public class LoginActivity extends Activity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+
                 Intent intent = new Intent(LoginActivity.this, SignUpUsingEmailAndPW.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-
+                finish();
             }
         });
 
@@ -102,15 +105,42 @@ public class LoginActivity extends Activity {
         });
     }
 
+    public void showSettingAlert()
+    {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getApplicationContext());
+        alertDialog.setTitle("GPS setting!");
+        alertDialog.setMessage("GPS is not enabled, Do you want to go to settings menu? ");
+        alertDialog.setPositiveButton("Setting", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                getApplicationContext().startActivity(intent);
+            }
+        });
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        alertDialog.show();
+    }
+    private void buildAlertMessageNoGps() {
+        Util util = new Util();
+        util.displayPromptForEnablingGPS();
+    }
+
 
     @Override
     public void onStart() {
         super.onStart();
         if (mAuth.getCurrentUser() != null){
             finish();
+
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
         }
         else {
+
             Toast.makeText(getApplicationContext(), "You didn't sign in yet!, Please sign", Toast.LENGTH_LONG).show();
         }
     }

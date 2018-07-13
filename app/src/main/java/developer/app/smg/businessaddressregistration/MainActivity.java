@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private UsersProfileInfoFragment accountProfileFragment;
     private BusinessesFragment businessesFragment;
     private RegistrationFragment registrationFragment;
+    private MapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +25,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+
         bottomMainNav = findViewById(R.id.main_nav_menu);
         registrationFragment = new RegistrationFragment();
         businessesFragment = new BusinessesFragment();
         accountProfileFragment = new UsersProfileInfoFragment();
+        mapFragment = new MapFragment();
 
         setFragment(businessesFragment);
+
+
         bottomMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -46,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
                         bottomMainNav.setItemBackgroundResource(R.color.colorPrimaryDark);
                         setFragment(accountProfileFragment);
                         return true;
+                    case R.id.map_nav:
+                        bottomMainNav.setItemBackgroundResource(R.color.colorPrimaryDark);
+                        setFragment(mapFragment);
+                        return true;
                     default:
                         return false;
                 }
@@ -53,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
 
     private void setFragment(Fragment fragment) {

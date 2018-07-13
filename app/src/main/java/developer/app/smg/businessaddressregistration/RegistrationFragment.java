@@ -82,7 +82,8 @@ public class RegistrationFragment extends Fragment {
             Toast.makeText(getContext(), "Current location info " + " \n" + "Lat: " + latitude + " \n" + "Long: " + longitude, Toast.LENGTH_LONG).show();
         }
 
-        txtLatitude.setText(""+ latitude); txtLongitude.setText(""+longitude);
+        txtLatitude.setText(""+ latitude);
+        txtLongitude.setText(""+longitude);
 
 
         btnSaveData.setOnClickListener(new View.OnClickListener() {

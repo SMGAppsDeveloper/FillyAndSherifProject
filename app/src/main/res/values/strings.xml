@@ -1,8 +1,9 @@
 <resources>
+    <string name="myGoogleAmpApiKey">AIzaSyAl2-64-4XVOVQcNyAA7d1cdhHoWCEh_OQ</string>
     <string name="app_name">List Business Addresses</string>
-    <string name="nav_business_registration">Register</string>
-    <string name="nav_location_of_business">Business</string>
-    <string name="nav_profile">Profile</string>
+    <string name="nav_business_registration">Add</string>
+    <string name="nav_location_of_business">Address</string>
+    <string name="nav_profile">Account</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -21,4 +22,5 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="map">Map</string>
 </resources>
