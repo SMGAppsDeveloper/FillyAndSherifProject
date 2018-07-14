@@ -1,5 +1,7 @@
 package developer.app.smg.businessaddressregistration;
 
+import android.content.Context;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,10 +24,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-
-
 
         bottomMainNav = findViewById(R.id.main_nav_menu);
         registrationFragment = new RegistrationFragment();
@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         setFragment(businessesFragment);
 
+        //ReturnIfGPSIsEnabled();
 
         bottomMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                         bottomMainNav.setItemBackgroundResource(R.color.colorPrimaryDark);
                         setFragment(accountProfileFragment);
                         return true;
+
                     case R.id.map_nav:
                         bottomMainNav.setItemBackgroundResource(R.color.colorPrimaryDark);
                         setFragment(mapFragment);
@@ -62,8 +64,27 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    boolean isEnabled = true;
 
+    private boolean ReturnIfGPSIsEnabled(){
+        LocationManager locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        boolean isGPSEnabled = locationManager.isProviderEnabled(locationManager.GPS_PROVIDER);
+        if (isGPSEnabled){
+            bottomMainNav.setEnabled(true);
+            return isGPSEnabled;
+        }
+        else {
+            bottomMainNav.setEnabled(false);
+            Toast.makeText(getApplicationContext(), "Please Enable GPS First To Use This App!", Toast.LENGTH_LONG).show();
+            return isGPSEnabled;
+        }
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ReturnIfGPSIsEnabled();
+    }
 
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

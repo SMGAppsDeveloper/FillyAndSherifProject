@@ -2,8 +2,10 @@ package developer.app.smg.businessaddressregistration;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -44,35 +46,39 @@ public class LoginActivity extends Activity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showSettingAlert();
+                //showSettingAlert();
                 String userEMailAddressValue = userEmail.getText().toString();
                 String userPasswordValue = userPassword.getText().toString();
 
-                if (!ValidateInputs(userEMailAddressValue, userPasswordValue)){
+                if (!ValidateInputs(userEMailAddressValue, userPasswordValue)) {
 
                     progressBar.setVisibility(View.VISIBLE);
 
-                    mAuth.signInWithEmailAndPassword(userEMailAddressValue, userPasswordValue).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
-                                progressBar.setVisibility(View.GONE);
-                                //userEmail.getText().clear();
-                                //userPassword.getText().clear();
-                                //LoadUserInformation();
-                                finish();
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                                Toast.makeText(getApplicationContext(), "Successfully Logged In!  " , Toast.LENGTH_LONG).show();
+                    LocationManager locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+                    boolean isGPSEnabled = locationManager.isProviderEnabled(locationManager.GPS_PROVIDER);
+                    if (isGPSEnabled){
+                        mAuth.signInWithEmailAndPassword(userEMailAddressValue, userPasswordValue).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    progressBar.setVisibility(View.GONE);
+                                    finish();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
+                                    Toast.makeText(getApplicationContext(), "Successfully Logged In!  ", Toast.LENGTH_LONG).show();
 
+                                } else {
+                                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                    progressBar.setVisibility(View.GONE);
+                                }
                             }
-                            else    {
-                                Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        }
-                    });
+                        });
+                    }
+                    else {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), "Please Enable GPS First!  ", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
@@ -80,11 +86,17 @@ public class LoginActivity extends Activity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(LoginActivity.this, SignUpUsingEmailAndPW.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+                LocationManager locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+                boolean isGPSEnabled = locationManager.isProviderEnabled(locationManager.GPS_PROVIDER);
+                if (isGPSEnabled){
+                    Intent intent = new Intent(LoginActivity.this, SignUpUsingEmailAndPW.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Please Enable GPS First!  ", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

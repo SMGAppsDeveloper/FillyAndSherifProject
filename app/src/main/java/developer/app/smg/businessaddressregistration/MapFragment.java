@@ -1,12 +1,9 @@
 package developer.app.smg.businessaddressregistration;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -31,6 +28,7 @@ public class MapFragment extends Fragment {
 
     MapView mMapView;
     private GoogleMap googleMap;
+    double latitude, longitude;
 
     public MapFragment() {
         // Required empty public constructor
@@ -42,9 +40,14 @@ public class MapFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
+        GPSTracker g = new GPSTracker(getContext());
+        Location l = g.getLocation();
 
-
-
+        if(l != null){
+            latitude = l.getLatitude();
+            longitude  = l.getLongitude();
+            //Toast.makeText(getContext(), "Current location info " + " \n" + "Lat: " + latitude + " \n" + "Long: " + longitude, Toast.LENGTH_LONG).show();
+        }
         return rootView;
     }
 
@@ -63,6 +66,17 @@ public class MapFragment extends Fragment {
             e.printStackTrace();
         }
 
+        GPSTracker g = new GPSTracker(getContext());
+        Location l = g.getLocation();
+
+        if(l != null){
+            latitude = l.getLatitude();
+            longitude  = l.getLongitude();
+            //Toast.makeText(getContext(), "Current location info " + " \n" + "Lat: " + latitude + " \n" + "Long: " + longitude, Toast.LENGTH_LONG).show();
+        }
+
+
+
         mMapView.getMapAsync(new OnMapReadyCallback() {
                     @Override
                     public void onMapReady(GoogleMap mMap) {
@@ -78,12 +92,13 @@ public class MapFragment extends Fragment {
                             //                                          int[] grantResults)
                             // to handle the case where the user grants the permission. See the documentation
                             // for ActivityCompat#requestPermissions for more details.
+
                             return;
                         }
                         googleMap.setMyLocationEnabled(true);
 
                         // For dropping a marker at a point on the Map
-                        LatLng sydney = new LatLng(-47.521828694794536, -122.27257239742572);
+                        LatLng sydney = new LatLng(latitude, longitude);
                         googleMap.addMarker(new MarkerOptions().position(sydney).title("Business Address").snippet("Ruhama Restaurant"));
 
                         // For zooming automatically to the location of the marker

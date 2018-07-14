@@ -152,6 +152,20 @@
                     android:layout_gravity="center"
                     android:textStyle="bold"
                     android:textAllCaps="false"
+                    android:id="@+id/btnGetMyLocation"
+                    android:text="Get Location Address"/>
+
+                <Button
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorWhite"
+                    android:background="@color/colorPrimary"
+                    android:textSize="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
                     android:id="@+id/saveBusinessData"
                     android:text="Save Business Information"/>
             </android.support.design.widget.TextInputLayout>

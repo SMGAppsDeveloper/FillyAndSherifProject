@@ -35,7 +35,7 @@ public class RegistrationFragment extends Fragment {
     private EditText txtFloorNumber;
     private EditText txtLatitude;
     private EditText txtLongitude;
-    private Button btnSaveData;
+    private Button btnSaveData, btnGetLocation;
     private FirebaseFirestore db;
     double latitude, longitude;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -53,7 +53,7 @@ public class RegistrationFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_registration, container, false);
-        //getLastLocation();
+
         return view;
     }
 
@@ -73,19 +73,34 @@ public class RegistrationFragment extends Fragment {
         txtLatitude = view.findViewById(R.id.addresslatitude);
         txtLongitude = view.findViewById(R.id.addresslongitude);
         btnSaveData = view.findViewById(R.id.saveBusinessData);
+        btnGetLocation = view.findViewById(R.id.btnGetMyLocation);
 
         GPSTracker g = new GPSTracker(getContext());
         Location l = g.getLocation();
         if(l != null){
-             latitude = l.getLatitude();
-             longitude = l.getLongitude();
-            Toast.makeText(getContext(), "Current location info " + " \n" + "Lat: " + latitude + " \n" + "Long: " + longitude, Toast.LENGTH_LONG).show();
+            latitude = l.getLatitude();
+            longitude = l.getLongitude();
+            //Toast.makeText(getContext(), "Current location info " + " \n" + "Lat: " + latitude + " \n" + "Long: " + longitude, Toast.LENGTH_LONG).show();
         }
 
         txtLatitude.setText(""+ latitude);
         txtLongitude.setText(""+longitude);
 
+        btnGetLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GPSTracker g = new GPSTracker(getContext());
+                Location l = g.getLocation();
+                if(l != null){
+                    latitude = l.getLatitude();
+                    longitude = l.getLongitude();
+                    //Toast.makeText(getContext(), "Current location info " + " \n" + "Lat: " + latitude + " \n" + "Long: " + longitude, Toast.LENGTH_LONG).show();
+                }
 
+                txtLatitude.setText(""+ latitude);
+                txtLongitude.setText(""+longitude);
+            }
+        });
         btnSaveData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

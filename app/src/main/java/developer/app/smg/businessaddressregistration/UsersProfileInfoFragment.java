@@ -42,7 +42,7 @@ public class UsersProfileInfoFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         Name = view.findViewById(R.id.tVuserName);
         Email = view.findViewById(R.id.tvUserEmmail);
-        LoadUserInformation();
+        //LoadUserInformation();
 
     }
 
